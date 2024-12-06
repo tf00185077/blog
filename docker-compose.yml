@@ -13,11 +13,13 @@ services:
       - .:/app # 綁定本地專案目錄，支援熱更新
       - /app/node_modules # 防止 node_modules 被覆蓋
     environment:
-      MONGO_URI: mongodb://root:example@mongodb:27017/mydatabase
+      MONGO_URI: mongodb://admin:yourpassword@mongodb:27017/blog
       CHOKIDAR_USEPOLLING: "true" # 使用輪詢監控文件變更
-      NODE_ENV: ${NODE_ENV:-dev}
+      NODE_ENV: ${NODE_ENV:-development}
     depends_on:
       - mongodb # 確保 MongoDB 先啟動
+    networks:
+      - app-network
     command: >
        sh -c "echo '當前環境模式: ($$NODE_ENV)'; 
              if [ \"$$NODE_ENV\" = \"development\" ]; then
@@ -39,6 +41,11 @@ services:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: yourpassword
     command: ["--nojournal"] # 禁用 journal 功能
+    networks:
+      - app-network
 
 volumes:
   mongo_data:
+networks:
+  app-network:
+    driver: bridge
