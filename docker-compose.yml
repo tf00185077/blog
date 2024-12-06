@@ -1,0 +1,44 @@
+# 開發用的 Docker Compose 檔
+version: '3.8'
+
+services:
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile # 使用開發用的 Dockerfile
+    container_name: nextjs-dev
+    ports:
+      - "3000:3000" # 將本地 3000 映射到容器內
+    volumes:
+      - .:/app # 綁定本地專案目錄，支援熱更新
+      - /app/node_modules # 防止 node_modules 被覆蓋
+    environment:
+      MONGO_URI: mongodb://root:example@mongodb:27017/mydatabase
+      CHOKIDAR_USEPOLLING: "true" # 使用輪詢監控文件變更
+      NODE_ENV: ${NODE_ENV:-dev}
+    depends_on:
+      - mongodb # 確保 MongoDB 先啟動
+    command: >
+       sh -c "echo '當前環境模式: ($$NODE_ENV)'; 
+             if [ \"$$NODE_ENV\" = \"development\" ]; then
+               echo \"環境模式: 開發模式 ($$NODE_ENV)\";
+               npm run dev;
+             else
+               echo \"環境模式: 生產模式 ($$NODE_ENV)\";
+               npm run build && npm start;
+             fi"
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo_data:/data/db # 持久化數據
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: yourpassword
+    command: ["--nojournal"] # 禁用 journal 功能
+
+volumes:
+  mongo_data:
