@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "backup-mongo": "docker exec mongodb mongodump --uri=\"mongodb://admin:yourpassword@localhost:27017/BLOG\" --authenticationDatabase=admin --out=/backup && docker cp mongodb:/backup/BLOG ./local_backup"
   },
   "dependencies": {
     "next": "15.0.4",
