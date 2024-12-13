@@ -19,9 +19,28 @@ Before running the project, make sure to set the `NODE_ENV` environment variable
 
 ### Running the Project
 1. Start the project using Docker Compose:
-bash
+```bash
 docker-compose up
+```
 
 ### Stopping the Project
-bash
+```bash
 docker-compose down
+```
+
+### Database Management
+#### Backup MongoDB Data
+To backup your MongoDB data:
+> ⚠️ **Important**: Make sure the containers are running before executing the backup command.
+
+1. Ensure containers are running:
+```bash
+npm run backup-mongo
+```
+
+#### Restore MongoDB Data
+To restore your MongoDB data, run:
+> - **Warning**: Restoring data will overwrite existing database content. Please make sure to backup your current data first if needed to prevent data loss.
+```bash
+docker-compose --profile init up
+```

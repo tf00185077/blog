@@ -13,7 +13,7 @@ services:
       - .:/app # 綁定本地專案目錄，支援熱更新
       - /app/node_modules # 防止 node_modules 被覆蓋
     environment:
-      MONGO_URI: mongodb://admin:yourpassword@mongodb:27017/blog
+      MONGO_URI: mongodb://admin:yourpassword@mongodb:27017/BLOG
       CHOKIDAR_USEPOLLING: "true" # 使用輪詢監控文件變更
       NODE_ENV: ${NODE_ENV:-development}
     depends_on:
@@ -39,13 +39,31 @@ services:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: yourpassword
     volumes:
-      - ./local_backup:/backup # 將本地備份目錄掛載到容器中
-    entrypoint: >
-      sh -c "
-        mongod --nojournal --bind_ip_all &
-        sleep 5;
-        mongorestore --uri='mongodb://admin:yourpassword@localhost:27017' --authenticationDatabase=admin /backup;
-      "
+      - ./local_backup:/backup
+    command: mongod --nojournal --bind_ip_all
+    healthcheck:
+      test: mongosh --eval 'db.runCommand("ping").ok' --quiet mongodb://admin:yourpassword@localhost:27017/admin
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - app-network
+
+  mongo-init:
+    image: mongo:6.0
+    profiles: ["init"] # 添加 profiles 設定
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - ./local_backup:/backup
+    command: >
+      sh -c '
+        echo "Listing backup directory contents:" &&
+        ls -la /backup/BLOG &&
+        mongorestore --uri="mongodb://admin:yourpassword@mongodb:27017" --authenticationDatabase=admin --db BLOG --dir /backup/BLOG
+      '
     networks:
       - app-network
 
