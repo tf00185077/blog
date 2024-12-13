@@ -35,17 +35,20 @@ services:
     container_name: mongodb
     ports:
       - "27017:27017"
-    volumes:
-      - ./mongo_data:/data/db # 持久化數據
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: yourpassword
-    command: ["--nojournal"] # 禁用 journal 功能
+    volumes:
+      - ./local_backup:/backup # 將本地備份目錄掛載到容器中
+    entrypoint: >
+      sh -c "
+        mongod --nojournal --bind_ip_all &
+        sleep 5;
+        mongorestore --uri='mongodb://admin:yourpassword@localhost:27017' --authenticationDatabase=admin /backup;
+      "
     networks:
       - app-network
 
-volumes:
-  mongo_data:
 networks:
   app-network:
     driver: bridge
