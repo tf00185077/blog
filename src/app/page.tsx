@@ -1,17 +1,17 @@
-'use client';
 import Image from "next/image";
-// import { getUser as getMongoUser } from "./getUser";
-// import { useState } from "react";
-const Home = () => {
-  // const [name, setName] = useState('');
+import Test from "@/pages/test/index";
+
+const Home = async ({ message22 }: { message22: string; }) => {
   const getTest = async () => {
-    // 'use server'
+    'use server';
     const response = await fetch('http://localhost:3000/api');
-    const data = await response.json();
-    console.log(data);
+    const data: { message: string; } = await response.json();
+    return data.message;
   };
+  const message = await getTest();
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <h1>{message22}</h1>
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
@@ -23,7 +23,10 @@ const Home = () => {
         />
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li>
-            <button onClick={getTest}>GET USER DATA</button>
+            <button onClick={getTest}>GET FETCH WORDING {message}</button>
+          </li>
+          <li>
+            <Test message={message} />
           </li>
           <li className="mb-2">
             test123 started by editing{" "}
