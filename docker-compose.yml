@@ -11,7 +11,6 @@ services:
       - "3000:3000" # 將本地 3000 映射到容器內
     volumes:
       - .:/app # 綁定本地專案目錄，支援熱更新
-      - /app/node_modules # 防止 node_modules 被覆蓋
     environment:
       MONGO_URI: mongodb://admin:yourpassword@mongodb:27017/BLOG
       CHOKIDAR_USEPOLLING: "true" # 使用輪詢監控文件變更
@@ -20,6 +19,7 @@ services:
       - mongodb # 確保 MongoDB 先啟動
     networks:
       - app-network
+
     command: >
        sh -c "echo '當前環境模式: ($$NODE_ENV)'; 
              if [ \"$$NODE_ENV\" = \"development\" ]; then
@@ -40,13 +40,15 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: yourpassword
     volumes:
       - ./local_backup:/backup
-    command: mongod --nojournal --bind_ip_all
+    command: mongod --nojournal --bind_ip_all --quiet
+    logging:
+      driver: none
     healthcheck:
-      test: mongosh --eval 'db.runCommand("ping").ok' --quiet mongodb://admin:yourpassword@localhost:27017/admin
-      interval: 5s
+      test: "echo 'db.runCommand({ ping: 1 })' | mongo --quiet mongodb://admin:yourpassword@localhost:27017/admin > /dev/null 2>&1"
+      interval: 10s
       timeout: 5s
-      retries: 3
-      start_period: 10s
+      retries: 5
+      start_period: 30s
     networks:
       - app-network
 
