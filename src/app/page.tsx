@@ -1,14 +1,13 @@
 import Image from "next/image";
-import Test from "@/pages/test/index";
-
+import TestClientComponent from "./TestClientComponent";
 const Home = async ({ message22 }: { message22: string; }) => {
   const getTest = async () => {
     'use server';
     const response = await fetch('http://localhost:3000/api');
     const data: { message: string; } = await response.json();
+    console.log({ data });
     return data.message;
   };
-  const message = await getTest();
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <h1>{message22}</h1>
@@ -23,10 +22,7 @@ const Home = async ({ message22 }: { message22: string; }) => {
         />
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li>
-            <button onClick={getTest}>GET FETCH WORDING {message}</button>
-          </li>
-          <li>
-            <Test message={message} />
+            <TestClientComponent getTest={getTest} />
           </li>
           <li className="mb-2">
             test123 started by editing{" "}
