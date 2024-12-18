@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #F2F3F4;          /* 更淺的工業灰 */
+  --background-outer: #E5E7E9;    /* 比主背景稍深的灰色 */
+  --background-header: #D0D3D4;   /* 更深的灰色 (header專用) */
+  --foreground: #2C3E50;          /* 深青灰色 */
+  --text-secondary: #566573;      /* 次要文字顏色 */
+  --accent: #7F8C8D;              /* 強調色 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #2C3E50;        /* 較亮的深沉工業灰 */
+    --background-outer: #273746;  /* 比主背景稍深的暗色 */
+    --background-header: #212F3D; /* 較亮的深灰色 (header專用) */
+    --foreground: #ECF0F1;        /* 更亮的金屬光澤灰 */
+    --text-secondary: #BDC3C7;    /* 較亮的次要文字 */
+    --accent: #95A5A6;            /* 較亮的強調色 */
+  }
+}
+
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+*{
+  box-sizing: border-box;
+}

@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile # 使用開發用的 Dockerfile
     container_name: nextjs-dev
     ports:
-      - "3000:3000" # 將本地 3000 映射到容器內
+      - "3001:3001" # 將本地 3000 映射到容器內
     volumes:
       - .:/app # 綁定本地專案目錄，支援熱更新
     environment:
@@ -34,7 +34,7 @@ services:
     image: mongo:6.0
     container_name: mongodb
     ports:
-      - "27017:27017"
+      - "27018:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: yourpassword

@@ -9,10 +9,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
-    },
+        bg: {
+          DEFAULT: 'var(--background)',     // 主背景色
+          main: 'var(--background)',     // 主背景色
+          outer: 'var(--background-outer)', // 外層背景色
+          header: 'var(--background-header)', // header背景色
+        },
+        text: {
+          DEFAULT: 'var(--foreground)',        // 主要文字顏色
+          main: 'var(--foreground)',        // 主要文字顏色
+          secondary: 'var(--text-secondary)',   // 次要文字顏色
+          accent: 'var(--accent)',             // 強調文字顏色
+        }
+      }
+    }
   },
   plugins: [],
 } satisfies Config;
