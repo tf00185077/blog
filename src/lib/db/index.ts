@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGO_URI || 'mongodb://localhost:27017';
+const uri = 'mongodb://localhost:27018';
 
 const getMongoClient = () => new MongoClient(uri, {
   connectTimeoutMS: 600000,
