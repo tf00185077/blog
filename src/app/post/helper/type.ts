@@ -1,19 +1,22 @@
 type Article = {
   title: string;
-  content: ContentItem[];
+  contents: ContentItem[];
   logo: string;
 };
 
 type ContentItem = {
-  id: string;        // 用於排序和識別
+  id: number;        // 用於排序和識別
   type: 'text' | 'image';
   content: string;
-  order: number;     // 用於維護順序
+  height?: number;
+  width?: number;
+  originalHeight?: number;
+  originalWidth?: number;
 };
 
 const emptyArticle: Article = {
   title: '',
-  content: [{ id: '', type: 'text', content: '', order: 0 }, { id: '', type: 'text', content: '', order: 0 }],
+  contents: [{ id: 0, type: 'text', content: '' }],
   logo: '',
 };
 

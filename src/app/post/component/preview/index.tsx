@@ -2,13 +2,13 @@ import { Article } from "../../helper/type";
 import Image from "next/image";
 import React from "react";
 const Preview = ({ article }: { article: Article; }) => {
-  return article.content.map((item, index) => {
+  return article.contents.map((item, index) => {
     switch (item.type) {
       case 'image':
         return (
           <Image
-            width={100}
-            height={100}
+            width={item.width}
+            height={item.height}
             key={index}
             src={item.content}
             alt={`content-${index}`}
