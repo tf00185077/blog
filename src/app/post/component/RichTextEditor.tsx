@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
+// @ts-expect-error no declaration file
 import { Editor, EditorState, convertToRaw, ContentBlock } from "draft-js";
 import "draft-js/dist/Draft.css";
 import { handleFileUpload } from "../helper";
@@ -18,7 +19,7 @@ const DraftEditor = () => {
     const currentBlocks = currentContent.getBlocksAsArray();
     const newBlocks = newContent.getBlocksAsArray();
 
-    const hasAtomicBlock = blocks => blocks.some(block => block.getType() === 'atomic');
+    const hasAtomicBlock = (blocks: ContentBlock[]) => blocks.some(block => block.getType() === 'atomic');
 
     if (hasAtomicBlock(currentBlocks) && !hasAtomicBlock(newBlocks)) {
       // 如果 atomic block 被刪除，保留原狀態
