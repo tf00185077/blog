@@ -10,10 +10,12 @@
     "backup-mongo": "docker exec mongodb mongodump --uri=\"mongodb://admin:yourpassword@localhost:27017/BLOG\" --authenticationDatabase=admin --out=/backup && docker cp mongodb:/backup/BLOG ./local_backup"
   },
   "dependencies": {
+    "draft-js": "^0.11.7",
     "mongodb": "^6.12.0",
     "next": "15.0.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-draft-wysiwyg": "^1.15.0"
   },
   "devDependencies": {
     "@types/node": "^20",

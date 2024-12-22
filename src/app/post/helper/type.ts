@@ -20,5 +20,22 @@ const emptyArticle: Article = {
   logo: '',
 };
 
-export type { Article, ContentItem };
+type MediaProps = {
+  block: {
+    getEntityAt: (index: number) => string;
+  };
+  contentState: {
+    getEntity: (key: string) => {
+      getData: () => { src: string; };
+    };
+  };
+};
+type ImageDimensions = {
+  originalWidth: number;
+  originalHeight: number;
+  displayWidth: number;
+  displayHeight: number;
+};
+
+export type { Article, ContentItem, MediaProps, ImageDimensions };
 export { emptyArticle };
