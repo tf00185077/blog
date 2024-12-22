@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import Header from "./_components/Header";
+import Header from "./(web)/_components/Header";
 import localFont from "next/font/local";
-import "../../scss/globals.css";
+import "../scss/globals.css";
 
 const geistSans = localFont({
-  src: "../../scss/fonts/GeistVF.woff",
+  src: "../scss/fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "../../scss/fonts/GeistMonoVF.woff",
+  src: "../scss/fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
