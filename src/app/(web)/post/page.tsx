@@ -1,7 +1,7 @@
 'use client'
 import dynamic from 'next/dynamic';
 import React from "react";
-const RichTextEditor = dynamic(()=>import('./component/RichTextEditor'),{ssr:false})
+const RichTextEditor = dynamic(()=>import('./_component/RichTextEditor'),{ssr:false})
 
 export default function Home() {
   return (

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Editor, EditorState, convertToRaw, ContentBlock, DraftHandleValue, genKey, SelectionState, Modifier } from "draft-js";
 import { List } from "immutable";
 import "draft-js/dist/Draft.css";
-import { handleFileUpload } from "../helper";
+import { handleFileUpload } from "../_helper";
 import Media from "./ImageBlock";
 import UpdateImage from "./UpdateImage";
 const DraftEditor = () => {

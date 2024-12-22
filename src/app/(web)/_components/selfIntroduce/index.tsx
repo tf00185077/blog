@@ -1,5 +1,5 @@
 import Photo from './Photo';
-import ContactMe from '../contactMe';
+import ContactMe from '../ContactMe';
 const SelfIntroduce = () => {
   return (
     <div className='px-24 py-6 flex items-center gap-24 border-b border-gray-500 '>

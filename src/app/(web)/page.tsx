@@ -1,4 +1,4 @@
-import SelfIntroduce from './components/selfIntroduce';
+import SelfIntroduce from './_components/selfIntroduce';
 import Link from 'next/link';
 const Home = async () => {
   return (

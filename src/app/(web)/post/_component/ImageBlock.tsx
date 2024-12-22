@@ -1,4 +1,4 @@
-import { MediaProps } from "../helper/type";
+import { MediaProps } from "../_helper/type";
 import NextImage from "next/image";
 const Media = (props: MediaProps) => {
   const entityKey = props.block.getEntityAt(0);
