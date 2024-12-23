@@ -1,4 +1,5 @@
 import calculateWidthAndHeight from "@/lib/utils/calculateWidthAndHeight";
+// @ts-expect-error no declaration file
 import { EditorState, AtomicBlockUtils } from "draft-js";
 import { ImageDimensions } from "./type";
 
