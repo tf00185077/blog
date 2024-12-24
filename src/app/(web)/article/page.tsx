@@ -1,8 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
+// @ts-expect-error no declaration file
+import {EditorState} from 'draft-js';
 import Link from 'next/link';
 export default function PostsList() {
- const [posts, setPosts] = useState([]);
+ const [posts, setPosts] = useState<EditorState[]>([]);
  const [loading, setLoading] = useState(true);
   useEffect(() => {
    const fetchPosts = async () => {
@@ -23,7 +25,7 @@ export default function PostsList() {
    <div className="max-w-4xl mx-auto p-4">
      <h1 className="text-2xl font-bold mb-4">文章</h1>
      <div className="space-y-4">
-       {posts.map((post: any) => (
+       {posts.map((post: EditorState) => (
          <div key={post._id} className="border p-4 rounded-lg shadow">
            <Link href={`/article/${post._id}`}>
              <div className="hover:text-blue-500">
