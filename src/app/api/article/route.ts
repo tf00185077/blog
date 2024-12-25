@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getMongoCollection } from "@/lib/db";
 export async function GET() {
-  const { collection, client } = await getMongoCollection('Test');
+  const { collection, client } = await getMongoCollection('Articles');
 
   try {
     const posts = await collection.find({})

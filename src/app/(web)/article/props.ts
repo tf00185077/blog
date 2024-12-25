@@ -2,11 +2,11 @@
 import { NextResponse } from "next/server";
 import { getMongoCollection } from "@/lib/db";
 const getProps = async () => {
-  const { client } = await getMongoCollection("Test");
+  const { client } = await getMongoCollection("Articles");
   try {
     await client.connect();
     const db = client.db("BLOG");
-    const data = await db.collection("Test").find({}).toArray();
+    const data = await db.collection("Articles").find({}).toArray();
     await client.close();
     await new Promise(resolve => setTimeout(resolve, 5000));
     return NextResponse.json({ status: 200, response:data });

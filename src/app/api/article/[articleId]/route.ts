@@ -5,7 +5,7 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ articleId: string; }> }
 ) {
-  const { collection, client } = await getMongoCollection('Test');
+  const { collection, client } = await getMongoCollection('Articles');
   try {
     // const articleId = params.articleId;
     const articleId = (await params).articleId;

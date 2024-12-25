@@ -41,7 +41,7 @@ const POST = async (req: Request): Promise<NextResponse<PostResponse>> => {
     updatedAt: new Date(),
   };
 
-  const { collection, client } = await getMongoCollection('Test');
+  const { collection, client } = await getMongoCollection('Articles');
   try {
     await collection.insertOne({ ...contentToSave });
     return NextResponse.json({ status: 'success', message: "save success" });

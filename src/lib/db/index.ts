@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb';
-const uri = 'mongodb://localhost:27018';
+const uri = process.env.MONGO_URI ?? 'mongodb://localhost:27018';
 let client: MongoClient | null = null;
 const getMongoClient = () => {
   if (!client) {
@@ -7,11 +7,11 @@ const getMongoClient = () => {
       connectTimeoutMS: 600000,
       socketTimeoutMS: 600000,
       serverSelectionTimeoutMS: 600000,
-      auth: {
-        username: 'admin',
-        password: 'yourpassword'
-      },
-      authSource: 'admin'
+      // auth: {
+      //   username: 'admin',
+      //   password: 'yourpassword'
+      // },
+      // authSource: 'admin'
     });
   }
   return client;
