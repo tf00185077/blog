@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { getMongoCollection } from "@/lib/db";
 export async function GET(
   request: Request,
-  { params }: { params: { articleId: string; }; }
+  { params }: { params: Promise<{ articleId: string; }> }
 ) {
   const { collection, client } = await getMongoCollection('Test');
   try {

@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+// @ts-expect-error no declaration file
 import { EditorState, convertFromRaw } from 'draft-js';
 import Editor from '@draft-js-plugins/editor';
 import createImagePlugin from '@draft-js-plugins/image';

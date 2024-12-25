@@ -8,7 +8,7 @@ import "draft-js/dist/Draft.css";
 import { handleFileUpload } from "../_helper";
 import Media from "./ImageBlock";
 import UpdateImage from "./UpdateImage";
-import { uploadImage } from "../_helper/backend";
+import { post as savePost } from "@/lib/service/post";
 const DraftEditor = () => {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
@@ -113,47 +113,23 @@ const DraftEditor = () => {
   const prepareContentForSave = async () => {
     const rawContent = convertToRaw(editorState.getCurrentContent());
 
-    // 處理所有圖片，將 blob URL 轉換為實際 URL
-    const promises = Object.keys(rawContent.entityMap).map(async (key) => {
+    const formData = new FormData();
+    for (const key in rawContent.entityMap) {
       const entity = rawContent.entityMap[key];
       if (entity.type === 'IMAGE') {
-        // 假設 blob URL 存在 entity.data.src
-        try {
-          const blobUrl = entity.data.src;
-          const response = await fetch(blobUrl);
-          const blob = await response.blob();
-          
-          // 上傳圖片並獲取路徑
-          const imagePath = await uploadImage(blob);
-          
-          // 更新 entity 中的 src
-          entity.data.src = imagePath;
-          
-          // 可選：釋放 blob URL
-          URL.revokeObjectURL(blobUrl);
-        } catch (error) {
-          console.error('Error processing image:', error);
-          throw new Error('Failed to process image');
-        }
+        const file = entity.data.originalFile;
+        formData.append('images', JSON.stringify(file));
+        entity.data.tempKey = key;
       }
-    });
-    await Promise.all(promises);
-    // 現在可以將內容存入 MongoDB
-    const contentToSave = {
-      content: JSON.stringify(rawContent),
-      // 其他文章相關資料...
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    // 使用你的 API 將 contentToSave 存入 MongoDB
-    const response = await fetch('/api/post', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(contentToSave),
-    });
-    return response.json();
+    }
+
+    formData.append('content', JSON.stringify(rawContent));
+    const response = await savePost(formData);
+    if (response.status === 'success') {
+      alert(response.message);
+    } else {
+      alert(response.message);
+    }
   };
 
   return (

@@ -39,6 +39,7 @@ const insertImage = async (editorState: EditorState, file: File) => {
       "IMMUTABLE",
       {
         src: objectUrl,
+        originalFile: file,
         file: {
           name: file.name,
           size: file.size,
