@@ -14,7 +14,6 @@ export const uploadImage = async (blob: Blob): Promise<string> => {
    
    // 確保目標資料夾存在
    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-   console.log({uploadDir});
    await fs.mkdir(uploadDir, { recursive: true });
    
    // 寫入檔案

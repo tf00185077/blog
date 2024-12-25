@@ -8,41 +8,33 @@ const POST = async (req: Request): Promise<NextResponse<PostResponse>> => {
   const formData = await req.formData();
   const contentStr = formData.get('content') as string;
   const rawContent = JSON.parse(contentStr);
-  const images = formData.getAll('images');
-  console.log('收到的 images:', JSON.stringify(images, null, 2));
+  const images = formData.getAll('images') as File[];
   const imageMap = createImageMap(rawContent.entityMap);
   
-  // 解析 JSON 字串
-  const parsedImages = images.map(img => {
+  const parsedImages = [];
+  for (const img of images) {
+
     try {
-      return JSON.parse(img.toString());
+      parsedImages.push(
+        img,
+        {
+        size: img.size,
+        type: img.type,
+        name: img.name,
+        lastModified: img.lastModified,
+      });
     } catch (e) {
       console.error('解析圖片資料失敗:', e);
-      return null;
+      return NextResponse.json({ status: 'error', message: "Error extract post images" });
     }
-  });
-   // 過濾有效的圖片資料
-  const imageFiles = parsedImages.filter((image): image is any => 
-    image !== null && 
-    typeof image === 'object' &&
-    'name' in image &&
-    'size' in image &&
-    'type' in image &&
-    'displayWidth' in image &&
-    'displayHeight' in image &&
-    'originalWidth' in image &&
-    'originalHeight' in image
-  );
-  
-  console.log('處理後的圖片檔案:', imageFiles);
+  }
   
   // 處理圖片
   await Promise.all(
-    imageFiles.map(image =>
-      processImage(image, imageMap)
+    parsedImages.map(image =>
+      image instanceof File && processImage(image, imageMap)
     )
   );
-
   const contentToSave = {
     content: JSON.stringify(rawContent),
     createdAt: new Date(),

@@ -30,7 +30,10 @@ const UpdateImage = ({ imageUploadHandler }: {
         id="fileInput"
         className="hidden"
         accept="image/*"
-        onChange={imageUploadHandler}
+        onChange={(event) => {
+          imageUploadHandler(event);
+          event.target.value = '';
+        }}
       />
     </>
   );

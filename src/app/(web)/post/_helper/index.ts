@@ -28,7 +28,7 @@ const insertImage = async (editorState: EditorState, file: File) => {
   const { displayWidth, displayHeight, originalWidth, originalHeight } = await getImageDimensions(file);
   try {
     const objectUrl = URL.createObjectURL(file);
-
+    const uniqueId = `${file.name}-${Date.now()}`;
     // 獲取當前選區
     const selection = editorState.getSelection();
     const contentState = editorState.getCurrentContent();
@@ -40,6 +40,7 @@ const insertImage = async (editorState: EditorState, file: File) => {
       {
         src: objectUrl,
         originalFile: file,
+        // uniqueId, // 添加唯一 ID
         file: {
           name: file.name,
           size: file.size,

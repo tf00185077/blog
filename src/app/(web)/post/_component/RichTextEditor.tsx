@@ -118,13 +118,14 @@ const DraftEditor = () => {
       const entity = rawContent.entityMap[key];
       if (entity.type === 'IMAGE') {
         const file = entity.data.originalFile;
-        formData.append('images', JSON.stringify(file));
+        formData.append('images', file);
         entity.data.tempKey = key;
       }
     }
-
     formData.append('content', JSON.stringify(rawContent));
+
     const response = await savePost(formData);
+
     if (response.status === 'success') {
       alert(response.message);
     } else {
