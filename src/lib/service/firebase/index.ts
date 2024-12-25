@@ -9,6 +9,6 @@ if (!admin.apps.length) {
 }
 
 // 獲取存儲桶引用
-const bucket = admin.storage().bucket("blog-bbce7.firebasestorage.app");
+const bucket = admin.storage().bucket(process.env.FIREBASE_BUCKET_NAME);
 
 export { bucket };
