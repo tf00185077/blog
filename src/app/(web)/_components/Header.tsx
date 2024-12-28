@@ -17,7 +17,7 @@ const Header = () => {
           </Link>
         </li>
         <li>
-          <Link href="/article" className={pathname.startsWith('/article') ? 'font-bold text-text-secondary' : ''}>
+          <Link href="/article?page=1&size=9" className={pathname.startsWith('/article') ? 'font-bold text-text-secondary' : ''}>
             Article
           </Link>
         </li>

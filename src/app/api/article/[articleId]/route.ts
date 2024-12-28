@@ -9,6 +9,7 @@ export async function GET(
   try {
     // const articleId = params.articleId;
     const articleId = (await params).articleId;
+    console.log({ articleId });
     const post = await collection.findOne({
       _id: new ObjectId(articleId)
     });

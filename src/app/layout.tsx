@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Header from "./(web)/_components/Header";
 import localFont from "next/font/local";
 import { Provider } from "@/components/ui/provider";
+import { Box } from "@chakra-ui/react";
 import "../scss/globals.css";
 
 const geistSans = localFont({
@@ -27,14 +28,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-bg-outer min-h-[100dvh]`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-bg-outer`}>
         <Provider>
-          <div className="flex flex-col max-w-[1600px] mx-auto bg-bg-main min-h-[100dvh]">
+          <Box minH="100dvh">
             <Header />
-            <div className="flex-1">
+            <Box>
               {children}
-            </div>
-          </div>
+            </Box>
+          </Box>
         </Provider>
       </body>
     </html>
