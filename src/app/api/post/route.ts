@@ -7,6 +7,9 @@ import { createImageMap, processImage } from "./helper";
 const POST = async (req: Request): Promise<NextResponse<PostResponse>> => {
   const formData = await req.formData();
   const contentStr = formData.get('content') as string;
+  const title = formData.get('title') as string;
+  const tag = formData.get('tag') as string;
+  const subtitle = formData.get('subtitle') as string;
   const rawContent = JSON.parse(contentStr);
   const images = formData.getAll('images') as File[];
   const imageMap = createImageMap(rawContent.entityMap);
@@ -39,6 +42,9 @@ const POST = async (req: Request): Promise<NextResponse<PostResponse>> => {
     content: JSON.stringify(rawContent),
     createdAt: new Date(),
     updatedAt: new Date(),
+    title,
+    sub_title:subtitle,
+    tag,
   };
 
   const { collection, client } = await getMongoCollection('Articles');

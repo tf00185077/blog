@@ -9,10 +9,17 @@ import { handleFileUpload } from "../_helper";
 import Media from "./ImageBlock";
 import UpdateImage from "./UpdateImage";
 import { post as savePost } from "@/lib/service/post";
+import { Stack, Box, Button, Input } from "@chakra-ui/react";
+import TagSelector from "./TagSelectot";
 const DraftEditor = () => {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const [post, setPost] = useState({
+    title: '',
+    subtitle: '',
+    tag: ''
+  });
   const handleReturn = (_: React.KeyboardEvent, editorState: EditorState): DraftHandleValue => {
     const selection = editorState.getSelection();
     const content = editorState.getCurrentContent();
@@ -123,7 +130,9 @@ const DraftEditor = () => {
       }
     }
     formData.append('content', JSON.stringify(rawContent));
-
+    formData.append('title', post.title);
+    formData.append('tag', post.tag);
+    formData.append('subtitle', post.subtitle);
     const response = await savePost(formData);
 
     if (response.status === 'success') {
@@ -134,8 +143,11 @@ const DraftEditor = () => {
   };
 
   return (
-    <div>
-      <div className="border border-gray-300 p-2 min-h-[200px] cursor-text text-text-main"       >
+    <Box bg="transparent" spaceY="4">
+      <Input placeholder="請輸入文章標題" borderColor="gray.300" onChange={(e) => setPost({ ...post, title: e.target.value })} />
+      <Input placeholder="請輸入副標題" borderColor="gray.300" onChange={(e) => setPost({ ...post, subtitle: e.target.value })} />
+      <TagSelector onChange={(e) => setPost({ ...post, tag: e.target.value })} />
+      <Stack border="1px solid" borderColor="gray.300" p="2" minH="200px" cursor="text" color="text.main">
         <Editor
           editorState={editorState}
           onChange={editorStateChangeHandler}
@@ -143,25 +155,14 @@ const DraftEditor = () => {
           blockRendererFn={blockRendererFn}
           placeholder="請於此編輯文章"
         />
-      </div>
-      <UpdateImage imageUploadHandler={imageUploadHandler} />
-      <button  /**測試用按鈕 */
-        onClick={() =>
-          console.log(JSON.stringify(convertToRaw(editorState.getCurrentContent()), null, 2))
-        }
-        className="mt-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 
-                  transition-colors duration-200 flex items-center gap-2"
-      >
-        查看內容
-      </button>
-      <button
-        onClick={prepareContentForSave}
-        className="mt-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 
-             transition-colors duration-200 flex items-center gap-2"
-      >
-        儲存文章
-      </button>
-    </div>
+      </Stack>
+      <Stack direction="row" justifyContent="flex-end">
+        <UpdateImage imageUploadHandler={imageUploadHandler} />
+        <Button onClick={prepareContentForSave} mt="2" colorScheme="blue">
+          儲存文章
+        </Button>
+      </Stack>
+    </Box>
   );
 };
 
