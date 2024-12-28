@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
 
   //   return config;
   // },
+  optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
 };
 
 export default nextConfig;
