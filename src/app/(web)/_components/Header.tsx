@@ -21,11 +21,11 @@ const Header = () => {
             Article
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link href="/post" className={pathname.startsWith('/post') ? 'font-bold text-text-secondary' : ''}>
             Post
           </Link>
-        </li>
+        </li> */}
       </ul>
     </header>
   );
