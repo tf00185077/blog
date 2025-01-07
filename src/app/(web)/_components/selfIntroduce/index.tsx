@@ -1,10 +1,13 @@
-import Photo from './Photo';
+// import Photo from './Photo';
 import ContactMe from '../ContactMe';
 import { Stack, Text } from '@chakra-ui/react';
+import Three from '../three';
+
 const SelfIntroduce = () => {
   return (
     <Stack borderBottom={'1px solid'} borderColor={'gray.500'} p={6} flexDirection={{ base: 'column', md: 'row' }} justifyContent={'center'} alignItems={'center'} gap={{ base: 4, md: 24 }}>
-      <Photo />
+      {/* <Photo /> */}
+      <Three />
       <Stack flexDirection={'column'} gap={4}>
         <Stack color={'text.main'}>
           <Text fontSize={'2xl'} fontWeight={'bold'} mb={4}>Hello, I&apos;m Tim</Text>
