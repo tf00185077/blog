@@ -10,6 +10,8 @@ const loadModel = async (): Promise<THREE.Group> => {
         loader.load(
             '/models/Minotaur_Male_Lores.obj',
             (obj) => {
+                obj.scale.set(0.1, 0.1, 0.1); // 調整模型大小
+                obj.position.set(0, -10, 0);     // 調整模型位置
                 resolve(obj);
             },
             // 添加載入進度回調（可選）
