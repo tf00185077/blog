@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
 
   //   return config;
   // },
-  optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
-};
+experimental: {
+    optimizePackageImports: ["@chakra-ui/react"],
+  },};
 
 export default nextConfig;
