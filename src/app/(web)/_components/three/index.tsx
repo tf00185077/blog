@@ -1,29 +1,22 @@
 "use client";
 import { useState, useCallback } from "react";
-// import loadModel from "./TryModel";
-import CustomHumanHead from "./CustomHumanHead";
 import RenderBox from "./renderBox";
+import human, { legAnimation, handAnimation } from "./mine-craft/human";
 const initScene = async (node: HTMLDivElement) => {
-  const { scene, renderer, camera } = RenderBox(node);
-  // try {
-  //   const model = await loadModel();
-  //   scene.add(model);
+  const { scene, renderer, camera, controls } = RenderBox(node);
 
-  // } catch (error) {
-  //   console.error('Failed to load model:', error);
-  // }
+  scene.add(human);
 
-  const { update: headUpdate, dispose: headDispose } = CustomHumanHead(scene);
-
-  const animate = () => {
+  const animate = (timestamp: number) => {
     requestAnimationFrame(animate);
-    headUpdate?.();
+    legAnimation(timestamp);
+    handAnimation(timestamp);
+    controls.update();
     renderer.render(scene, camera);
   };
-  animate();
+  animate(10000);
 
   return () => {
-    headDispose?.();
   };
 };
 
