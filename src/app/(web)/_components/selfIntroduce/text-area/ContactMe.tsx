@@ -1,3 +1,4 @@
+'use client';
 const ContactMe = () => {
   return (
     <div className="flex gap-4 items-center">

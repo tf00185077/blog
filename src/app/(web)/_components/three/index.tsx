@@ -1,16 +1,15 @@
 "use client";
 import { useState, useCallback } from "react";
 import RenderBox from "./renderBox";
-import human, { legAnimation, handAnimation } from "./mine-craft/human";
+import { createHuman } from "./mine-craft/human";
 const initScene = async (node: HTMLDivElement) => {
-  const { scene, renderer, camera, controls } = RenderBox(node);
-
-  scene.add(human);
+  const { scene, renderer, camera, controls } = RenderBox(node, { width: 300, height: 300 });
+  const { model: humanModel, animate: humanAnimate } = createHuman();
+  scene.add(humanModel);
 
   const animate = (timestamp: number) => {
     requestAnimationFrame(animate);
-    legAnimation(timestamp);
-    handAnimation(timestamp);
+    humanAnimate(timestamp);
     controls.update();
     renderer.render(scene, camera);
   };

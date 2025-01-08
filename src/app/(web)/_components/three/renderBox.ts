@@ -1,16 +1,63 @@
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-const RenderBox = (node: HTMLDivElement) => {
-  const width = 300;
-  const height = 300;
+
+interface RenderBoxOptions {
+  width: number;
+  height: number;
+  fitContainer?: boolean;    // 是否自適應容器大小
+  maintainAspect?: boolean;  // 是否保持寬高比
+  position?: 'absolute' | 'relative'; // 定位方式
+  fullCover?: boolean;       // 是否完全覆蓋容器
+}
+
+const RenderBox = (node: HTMLDivElement, options: RenderBoxOptions) => {
+  const width = options.width;
+  const height = options.height;
+
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera();
+  const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
   camera.position.z = 6;
   camera.lookAt(0, 0, 0);
   const renderer = new THREE.WebGLRenderer();
   renderer.setClearColor(0x000000, 0);  // 第二個參數0 表示完全透明
   renderer.setSize(width, height);
+  const canvas = renderer.domElement;
+  if (options.position) {
+    canvas.style.position = options.position;
+  }
+
+  // 如果需要完全覆蓋容器
+  if (options.fullCover) {
+    canvas.style.position = 'absolute';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+
+    // 確保容器有正確的定位
+    if (window.getComputedStyle(node).position === 'static') {
+      node.style.position = 'relative';
+    }
+  }
+  let cleanup: (() => void) | undefined;
+  if (options.fitContainer) {
+    const resizeHandler = () => {
+      const newWidth = node.clientWidth;
+      const newHeight = options.maintainAspect
+        ? (node.clientWidth * height) / width
+        : node.clientHeight;
+
+      camera.aspect = newWidth / newHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(newWidth, newHeight);
+    };
+    window.addEventListener('resize', resizeHandler);
+    resizeHandler();
+    cleanup = () => {
+      window.removeEventListener('resize', resizeHandler);
+    };
+  }
   node.appendChild(renderer.domElement);
 
   // 添加 OrbitControls
@@ -30,7 +77,7 @@ const RenderBox = (node: HTMLDivElement) => {
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
   scene.add(ambientLight);
 
-  return { scene, camera, renderer, controls };
+  return { scene, camera, renderer, controls, cleanup };
 };
 
 export default RenderBox;
