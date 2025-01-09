@@ -27,7 +27,7 @@ const TextArea = () => {
     return () => {
       mutationObserver.disconnect();
     };
-  }, []); // 只在組件掛載時執行一次
+  }, [scrollRef]); // 只在組件掛載時執行一次
   return (
     <Stack ref={scrollRef} bg='white' w={{ base: 'calc(100% - 24px)', md: '960px' }} maxH={{ base: '300px', md: 'auto' }} overflow={'auto'} m='auto' color={'black'} border={'none'} borderRadius='xl'
       zIndex={2} position={'relative'}
