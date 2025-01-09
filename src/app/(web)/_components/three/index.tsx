@@ -3,8 +3,9 @@ import { useState, useCallback } from "react";
 import RenderBox from "./renderBox";
 import { createHuman } from "./mine-craft/human";
 const initScene = async (node: HTMLDivElement) => {
-  const { scene, renderer, camera, controls } = RenderBox(node, { width: 300, height: 300 });
+  const { scene, renderer, camera, controls } = RenderBox(node, { width: 300, height: 300, position: 'absolute', fullCover: true, fitContainer: true });
   const { model: humanModel, animate: humanAnimate } = createHuman();
+  humanModel.position.set(0, 0, 0);
   scene.add(humanModel);
 
   const animate = (timestamp: number) => {
@@ -33,9 +34,9 @@ export default function Home() {
   );
 
   return (
-    <main>
+    <main className="w-[calc(100dvw-100px)] h-[calc(100dvh-64px)] absolute top-0 left-0">
       <div
-        className=""
+        className=" w-full h-full absolute top-0 left-0"
         ref={threeDivRef}
       ></div>
     </main>

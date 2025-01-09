@@ -17,8 +17,9 @@ const RenderBox = (node: HTMLDivElement, options: RenderBoxOptions) => {
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
-  camera.position.z = 6;
-  camera.lookAt(0, 0, 0);
+  camera.position.z = 10;
+  //  camera.position.set(0, 0, 0);
+  // camera.lookAt(0, 0, 0);
   const renderer = new THREE.WebGLRenderer();
   renderer.setClearColor(0x000000, 0);  // 第二個參數0 表示完全透明
   renderer.setSize(width, height);
