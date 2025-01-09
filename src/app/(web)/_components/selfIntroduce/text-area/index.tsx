@@ -2,12 +2,36 @@
 import { Stack } from '@chakra-ui/react';
 import ContactMe from './ContactMe';
 import TypewriterText from './TypeMachine';
+import { useEffect, useRef } from 'react';
 const TextArea = () => {
-
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const element = scrollRef.current;
+    if (!element) return;
+    // 創建 MutationObserver 來監聽內容變化
+    const mutationObserver = new MutationObserver(() => {
+      element.scrollTo({
+        top: element.scrollHeight,
+        behavior: 'smooth'
+      });
+    });
+    // 配置觀察選項
+    const config = {
+      childList: true,      // 監聽子節點的增減
+      subtree: true,        // 監聽所有後代節點
+      characterData: true   // 監聽文本內容變化
+    };
+    // 開始觀察
+    mutationObserver.observe(element, config);
+    // 清理函數
+    return () => {
+      mutationObserver.disconnect();
+    };
+  }, []); // 只在組件掛載時執行一次
   return (
-    <Stack bg='white' w='1060px' color={'black'} border={'none'} borderRadius='xl'
+    <Stack ref={scrollRef} bg='white' w={{ base: 'calc(100% - 24px)', md: '960px' }} maxH={{ base: '300px', md: 'auto' }} overflow={'auto'} m='auto' color={'black'} border={'none'} borderRadius='xl'
       zIndex={2} position={'relative'}
-      flexDirection={'column'} gap={4} p={6} top={6} left={6}
+      flexDirection={'column'} gap={4} p={{ base: 4, md: 6 }} top={6}
       boxShadow='0px 0px 12px 8px rgba(255, 255, 255, 0.1), 0px 0px 12px 8px rgba(255,255, 255, 0.1), 0px 0px 12px 8px rgba(255,255, 255, 0.1)'
     >
       <Stack color={'text.main'}>
