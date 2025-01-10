@@ -5,9 +5,11 @@ import { createHuman } from "./mine-craft/human";
 import { map, initMap, cleanupAnimation } from "./map";
 const initScene = async (node: HTMLDivElement) => {
   const { scene, renderer, camera, controls } = RenderBox(node, { width: 300, height: 300, position: 'absolute', fullCover: true, fitContainer: true });
+
   const { model: humanModel, animate: humanAnimate } = createHuman();
   humanModel.position.set(0, 0, 0);
   scene.add(humanModel);
+
   await initMap();
   scene.add(map);
 
