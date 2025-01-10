@@ -2,7 +2,7 @@
 import { useState, useCallback } from "react";
 import RenderBox from "./renderBox";
 import { createHuman } from "./mine-craft/human";
-import { map, initMap } from "./map";
+import { map, initMap, cleanupAnimation } from "./map";
 const initScene = async (node: HTMLDivElement) => {
   const { scene, renderer, camera, controls } = RenderBox(node, { width: 300, height: 300, position: 'absolute', fullCover: true, fitContainer: true });
   const { model: humanModel, animate: humanAnimate } = createHuman();
@@ -20,6 +20,7 @@ const initScene = async (node: HTMLDivElement) => {
   animate(10000);
 
   return () => {
+    cleanupAnimation();
   };
 };
 

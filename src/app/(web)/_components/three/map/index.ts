@@ -1,6 +1,8 @@
 'use client';
 import * as THREE from 'three';
 const map = new THREE.Group();
+let animationId: number | null = null;
+let ground: THREE.Mesh | null = null;
 const initMap = () => {
   return new Promise((resolve) => {
     const groundGeometry = new THREE.BoxGeometry(100, 5, 2000);
@@ -9,7 +11,7 @@ const initMap = () => {
       roughness: 0.8,
       metalness: 0.2,
     });
-    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground = new THREE.Mesh(groundGeometry, groundMaterial);
     ground.rotation.x = -Math.PI / 10;
     ground.position.y = -7;
     new THREE.TextureLoader().load(
@@ -24,7 +26,7 @@ const initMap = () => {
 
         // 紋理重複設置
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(1,8);  // 減少重複次數可能會更清晰
+        texture.repeat.set(1, 8);  // 減少重複次數可能會更清晰
 
         // 顏色空間設置
         texture.colorSpace = THREE.SRGBColorSpace;
@@ -32,10 +34,31 @@ const initMap = () => {
         groundMaterial.map = texture;
         groundMaterial.needsUpdate = true;
 
-        map.add(ground);
+        map.add(ground as THREE.Mesh);
+        startAnimation();
         resolve(map);
       }
     );
   });
 };
-export { map, initMap };
+const startAnimation = () => {
+  const animate = () => {
+    // 移動地板
+    if (ground) {
+      if (ground.material instanceof THREE.MeshStandardMaterial && ground.material.map) {
+        ground.material.map.offset.y -= 0.0002; // 調整這個值來改變紋理滾動速度
+      }
+    }
+
+    animationId = requestAnimationFrame(animate);
+  };
+
+  animate();
+};
+
+const cleanupAnimation = () => {
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+  }
+};
+export { map, initMap, cleanupAnimation };
